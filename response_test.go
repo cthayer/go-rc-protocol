@@ -6,7 +6,7 @@ import (
 )
 
 func TestNewResponse(t *testing.T) {
-	want := response{ExitCode: -1}
+	want := Response{ExitCode: -1}
 
 	if got := newResponse(""); !reflect.DeepEqual(got, want) {
 		t.Errorf("newResponse() = %q, want %q", got, want)

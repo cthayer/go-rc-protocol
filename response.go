@@ -4,9 +4,7 @@ import (
     "encoding/json"
 )
 
-type Response interface {}
-
-type response struct {
+type Response struct {
     Id string `json:"id"`
     Stdout string `json:"stdout"`
     Stderr string `json:"stderr"`
@@ -15,9 +13,9 @@ type response struct {
 }
 
 func newResponse(jsonStr string) Response {
-    resp := response{ExitCode:-1}
+    resp := Response{ExitCode:-1}
 
-    if err := json.Unmarshal([]byte(jsonStr), resp); err != nil {
+    if err := json.Unmarshal([]byte(jsonStr), &resp); err != nil {
         // log error
     }
 

@@ -6,7 +6,7 @@ import (
 )
 
 func TestNewMessage(t *testing.T) {
-	want := message{}
+	want := Message{}
 
 	if got := newMessage(""); !reflect.DeepEqual(got, want) {
 		t.Errorf("newMessage() = %q, want %q", got, want)

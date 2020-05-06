@@ -4,18 +4,22 @@ import (
     "encoding/json"
 )
 
-type Message interface {}
-
-type message struct {
+type Message struct {
     Id int `json:"id"`
     Command string `json:"command"`
-    Options map[string]interface{} `json:"options"`
+    Options MessageOptions `json:"options"`
+}
+
+type MessageOptions struct {
+    Cwd string `json:"cwd"`
+    Timeout int `json:"timeout"`
+    Env map[string]string `json:"env"`
 }
 
 func newMessage(jsonStr string) Message {
-    msg := message{}
+    msg := Message{}
 
-    if err := json.Unmarshal([]byte(jsonStr), msg); err != nil {
+    if err := json.Unmarshal([]byte(jsonStr), &msg); err != nil {
         // log error
     }
 
