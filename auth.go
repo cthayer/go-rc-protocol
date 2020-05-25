@@ -10,7 +10,7 @@ import (
     "github.com/pkg/errors"
     "hash"
     "io/ioutil"
-    "path"
+    "path/filepath"
     "regexp"
     "strings"
     "time"
@@ -118,7 +118,7 @@ func (a auth) CheckSig(header string, certDir string) (bool, error) {
 }
 
 func (a *auth) loadPEM(dir string, name string)  (*pem.Block, error) {
-    pemStr, err := ioutil.ReadFile(path.Join(dir, name))
+    pemStr, err := ioutil.ReadFile(filepath.Join(dir, name))
 
     if err != nil {
         // failed to read the pem file
