@@ -28,7 +28,6 @@ type Auth interface {
 
 type auth struct {
     headerPattern *regexp.Regexp
-    HeaderName string
     sigAlgorithm hash.Hash
     sigAlgorithmCrypto crypto.Hash
     sigEncoding *base64.Encoding
@@ -42,14 +41,14 @@ func newAuth() Auth {
         sigEncoding: base64.StdEncoding,
     }
 
-    return auth
+    return &auth
 }
 
-func (a auth) GetHeaderName() string {
+func (a *auth) GetHeaderName() string {
     return AUTH_HEADER_NAME
 }
 
-func (a auth) CreateSig(name string, keyDir string) (string, error) {
+func (a *auth) CreateSig(name string, keyDir string) (string, error) {
     key, err := a.loadKey(keyDir, name + ".key")
 
     if err != nil {
@@ -78,7 +77,7 @@ func (a auth) CreateSig(name string, keyDir string) (string, error) {
     return "RC " + strings.Join([]string{name, iso8601, sigStr}, ";"), nil
 }
 
-func (a auth) CheckSig(header string, certDir string) (bool, error) {
+func (a *auth) CheckSig(header string, certDir string) (bool, error) {
     if !a.headerPattern.MatchString(header) {
         // Log "Invalid format for authorization header: <header_value>
         return false, errors.New("Invalid format for authorization header")
@@ -175,6 +174,6 @@ func (a *auth) loadCert(dir string, name string) (*rsa.PublicKey, error) {
     }
 }
 
-func (a auth) ParseHeader(header string) []string {
+func (a *auth) ParseHeader(header string) []string {
      return strings.SplitN(strings.Replace(header, "RC ", "", 1), ";", 3)
 }

@@ -17,7 +17,7 @@ func TestNewAuth(t *testing.T) {
 		sigEncoding: base64.StdEncoding,
 	}
 
-	if got := newAuth(); !reflect.DeepEqual(got, want) {
-		t.Errorf("newAuth() = %q, want %v", got, want)
+	if got := newAuth(); !reflect.DeepEqual(got, &want) {
+		t.Errorf("newAuth() = %v, want %v", got, &want)
 	}
 }
